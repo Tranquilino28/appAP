@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Persona {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long tpers_id;
 
     private Long tpers_dni;

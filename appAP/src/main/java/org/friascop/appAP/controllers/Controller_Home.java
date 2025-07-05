@@ -19,8 +19,6 @@ public class Controller_Home {
      * se pasan todos los atributos en esta clase del servicio persona
      *
      *
-     *
-     *
      */
 
 
@@ -38,7 +36,7 @@ public class Controller_Home {
         return ResponseEntity.ok(servPersona.findAll());
     }
 
-    //muestra todos los detallesd e la persona que se quiere mostrar
+    //muestra todos los detallesd de la persona que se quiere mostrar
     @GetMapping("/{id}")
     public ResponseEntity<Persona> details(@PathVariable Long id) {
 
