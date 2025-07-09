@@ -11,27 +11,22 @@ import jakarta.persistence.*;
  * @author usuario
  */
 @Entity
-@Table(name = "TABLA_USUARIOS")
+@Table(name = "USUARIOS")
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long codigo;
-    private String usuario;
+    private Long usua_codigo;
+    private String usua_usuario;
     private String hash_salt;
     private String hash_password;
 
-    public Usuario(Long codigo, String usuario, String hash_salt, String hash_password) {
-        this.codigo = codigo;
-        this.usuario = usuario;
-        this.hash_salt = hash_salt;
-        this.hash_password = hash_password;
-    }
+    public Usuario(Long usua_codigo, String usua_usuario, String hash_salt, String hash_password) {
 
-    public Usuario(String usuario, String hash_salt, String hash_password) {
-        this.usuario = usuario;
+        this.usua_codigo = usua_codigo;
+        this.usua_usuario = usua_usuario;
         this.hash_salt = hash_salt;
         this.hash_password = hash_password;
     }
@@ -40,12 +35,13 @@ public class Usuario {
 
     }
 
-    public Long getCodigo() {
-        return codigo;
+
+    public Long getUsua_codigo() {
+        return usua_codigo;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getUsua_usuario() {
+        return usua_usuario;
     }
 
     public String getHash_salt() {
