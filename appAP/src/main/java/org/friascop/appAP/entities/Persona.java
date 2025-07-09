@@ -3,7 +3,7 @@ package org.friascop.appAP.entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "PERSONAS")
+@Table(name = "PERSONA")
 public class Persona {
 
     @Id
@@ -20,6 +20,10 @@ public class Persona {
         this.pers_dni = pers_dni;
         this.pers_nombres = pers_nombres;
         this.pers_apellidos = pers_apellidos;
+    }
+
+    public Persona() {
+
     }
 
     public Long getPers_dni() {
