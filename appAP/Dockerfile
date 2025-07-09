@@ -1,18 +1,20 @@
 # Etapa 1: construir el .jar
-FROM maven:3.9.6-eclipse-temurin-24 as builder
+
+FROM eclipse-temurin:24-jdk AS builder
 WORKDIR /build
 
-# Copiamos todo el proyecto
+# Instalar Maven manualmente
+RUN apt-get update && \
+    apt-get install -y maven && \
+    apt-get clean
+
 COPY . .
 
-# Empaquetamos
 RUN mvn clean package -DskipTests
 
-# Etapa 2: Imagen final
 FROM eclipse-temurin:24-jdk
 WORKDIR /app
 
-# Copiamos el .jar generado en la etapa anterior
 COPY --from=builder /build/target/*.jar app.jar
 
 EXPOSE 3066
