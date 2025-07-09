@@ -20,6 +20,7 @@ public class Persona {
         this.pers_dni = pers_dni;
         this.pers_nombres = pers_nombres;
         this.pers_apellidos = pers_apellidos;
+
     }
 
     public Persona() {
