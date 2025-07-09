@@ -1,14 +1,20 @@
-# Usa una imagen oficial de Java 24
-FROM eclipse-temurin:24-jdk
+# Etapa 1: construir el .jar
+FROM maven:3.9.6-eclipse-temurin-24 as builder
+WORKDIR /build
 
-# Crea un directorio dentro del contenedor
+# Copiamos todo el proyecto
+COPY . .
+
+# Empaquetamos
+RUN mvn clean package -DskipTests
+
+# Etapa 2: Imagen final
+FROM eclipse-temurin:24-jdk
 WORKDIR /app
 
-# Copia el JAR generado por Maven al contenedor
-COPY target/*.jar app.jar
+# Copiamos el .jar generado en la etapa anterior
+COPY --from=builder /build/target/*.jar app.jar
 
-# Expone el puerto 3066 (o el que uses)
-EXPOSE 8080
+EXPOSE 3066
 
-# Comando que ejecuta tu aplicación
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "app.jar"]
