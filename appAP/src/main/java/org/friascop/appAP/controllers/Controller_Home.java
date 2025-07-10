@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/api/home")
 public class Controller_Home {
 
     /**
@@ -63,18 +64,18 @@ public class Controller_Home {
     public ResponseEntity<Persona> ubdate(@RequestBody Persona persona, @PathVariable Long id) {
 
       Optional<Persona> personaOptional = servPersona.findById(id);
-/*
+
       if (personaOptional.isPresent()) {
 
           Persona personaDb = personaOptional.orElseThrow();
 
-          personaDb.setP(persona.getPers_dni());
-          personaDb.setPers_nombres(persona.getTpers_nombres());
-          personaDb.setTpers_nombres(persona.getTpers_apellidos());
+          personaDb.setIdentificacion(persona.getIdentificacion());
+          personaDb.setNombre(persona.getNombre());
+          personaDb.setApellido(persona.getApellido());
 
           return ResponseEntity.status(HttpStatus.CREATED).body(servPersona.save(personaDb));
       }
-*/
+
       return ResponseEntity.notFound().build();
     }
 

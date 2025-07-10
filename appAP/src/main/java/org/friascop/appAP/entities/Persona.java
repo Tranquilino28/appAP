@@ -3,39 +3,98 @@ package org.friascop.appAP.entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "PERSONA")
+@Table(name = "personas")
 public class Persona {
 
     @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long pers_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private Long pers_dni;
+    @Column(nullable = false)
+    private Integer identificacion;
 
-    private String pers_nombres;
+    @Column(nullable = false, length = 50)
+    private String nombre;
 
-    private String pers_apellidos;
+    @Column(nullable = false, length = 50)
+    private String apellido;
 
-    public Persona(Long pers_dni, String pers_nombres, String pers_apellidos) {
-        this.pers_dni = pers_dni;
-        this.pers_nombres = pers_nombres;
-        this.pers_apellidos = pers_apellidos;
+    @Column(nullable = false, length = 50)
+    private String direccion;
 
+    @ManyToOne
+    @JoinColumn(name = "tipo_identificacion_id")
+    private Maestra tipoIdentificacion;
+
+    @ManyToOne
+    @JoinColumn(name = "tipo_sexo_id")
+    private Maestra tipoSexo;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "tipo_estado_id")
+    private Maestra tipoEstado;
+
+    public Long getId() {
+        return id;
     }
 
-    public Persona() {
-
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Long getPers_dni() {
-        return pers_dni;
+    public Integer getIdentificacion() {
+        return identificacion;
     }
 
-    public String getPers_nombres() {
-        return pers_nombres;
+    public void setIdentificacion(Integer identificacion) {
+        this.identificacion = identificacion;
     }
 
-    public String getPers_apellidos() {
-        return pers_apellidos;
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public Maestra getTipoIdentificacion() {
+        return tipoIdentificacion;
+    }
+
+    public void setTipoIdentificacion(Maestra tipoIdentificacion) {
+        this.tipoIdentificacion = tipoIdentificacion;
+    }
+
+    public Maestra getTipoSexo() {
+        return tipoSexo;
+    }
+
+    public void setTipoSexo(Maestra tipoSexo) {
+        this.tipoSexo = tipoSexo;
+    }
+
+    public Maestra getTipoEstado() {
+        return tipoEstado;
+    }
+
+    public void setTipoEstado(Maestra tipoEstado) {
+        this.tipoEstado = tipoEstado;
     }
 }
