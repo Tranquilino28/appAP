@@ -23,6 +23,7 @@ public class Usuario {
     private String hash_salt;
     private String hash_password;
 
+    //private Persona persona;
     public Usuario(Long usua_codigo, String usua_usuario, String hash_salt, String hash_password) {
 
         this.usua_codigo = usua_codigo;
@@ -52,5 +53,23 @@ public class Usuario {
         return hash_password;
     }
 
-   
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUsua_codigo(Long usua_codigo) {
+        this.usua_codigo = usua_codigo;
+    }
+
+    public void setUsua_usuario(String usua_usuario) {
+        this.usua_usuario = usua_usuario;
+    }
+
+    public void setHash_salt(String hash_salt) {
+        this.hash_salt = hash_salt;
+    }
+
+    public void setHash_password(String hash_password) {
+        this.hash_password = hash_password;
+    }
 }
