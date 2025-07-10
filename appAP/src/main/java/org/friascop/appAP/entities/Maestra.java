@@ -16,7 +16,7 @@ public class Maestra {
     @Column(name = "nombre_corto", length = 20, nullable = false)
     private String nombreCorto;
 
-    @Column(name = "dependencia_id", nullable = false)
+    @Column(name = "dependencia_id")
     private Integer dependenciaId;
 
     @Column(nullable = false)
