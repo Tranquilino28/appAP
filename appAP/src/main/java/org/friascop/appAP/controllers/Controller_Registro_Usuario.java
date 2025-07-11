@@ -1,13 +1,13 @@
 package org.friascop.appAP.controllers;
 
-import org.friascop.appAP.entities.Maestra;
 import org.friascop.appAP.entities.Usuario;
-import org.friascop.appAP.services.InServ_Maestra;
 import org.friascop.appAP.services.InServ_Usuario;
+import org.friascop.appAP.util.PassSecure;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,9 +42,13 @@ public class Controller_Registro_Usuario {
     }
     //crea la persona pasandole el objeto de la perosna que se creo en otra clase
     @PostMapping
-    public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) throws InvalidKeySpecException {
 
-        Usuario usuarioDb =servUsuario.save(usuario);
+        System.out.println("nombre : "+usuario.getUsua_usuario()
+        + "\nsalt password: "+ usuario.getHash_password());
+
+        PassSecure.hashPassword(usuario.getHash_password(), PassSecure.generateSalt());
+       Usuario usuarioDb = servUsuario.save(usuario);
 
         return  ResponseEntity.status(HttpStatus.CREATED).body(usuarioDb);
     }

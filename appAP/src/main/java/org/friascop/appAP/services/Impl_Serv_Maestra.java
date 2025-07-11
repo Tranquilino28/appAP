@@ -1,9 +1,7 @@
 package org.friascop.appAP.services;
 
 import org.friascop.appAP.entities.Maestra;
-import org.friascop.appAP.entities.Persona;
 import org.friascop.appAP.repositories.InRepositorio_Maestra;
-import org.friascop.appAP.repositories.InRepositorio_Persona;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

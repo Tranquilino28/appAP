@@ -2,7 +2,6 @@ package org.friascop.appAP.controllers;
 
 
 import org.friascop.appAP.entities.Maestra;
-import org.friascop.appAP.entities.Persona;
 import org.friascop.appAP.services.InServ_Maestra;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
