@@ -47,7 +47,9 @@ public class Impl_Serv_Usuario implements InServ_Usuario {
         return repoUsuario.findById(id);
     }
 
-    public Usuario_dto findByid_dto(Long id) {
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<Usuario_dto> findById_dto(Long id) {
          Optional<Usuario> u = findById(id);
         Persona p = u.get().getPersona();
 
@@ -73,17 +75,14 @@ public class Impl_Serv_Usuario implements InServ_Usuario {
 
         );
 
-
-        return new Usuario_dto(
+        return Optional.of(new Usuario_dto(
                 u.get().getId()
-                ,u.get().getUsua_codigo()
+                , u.get().getUsua_codigo()
                 , u.get().getUsua_usuario()
                 , u.get().getUsua_rol()
                 , referencia_de_persona
 
-        );
-
-
+        ));
     }
 
 

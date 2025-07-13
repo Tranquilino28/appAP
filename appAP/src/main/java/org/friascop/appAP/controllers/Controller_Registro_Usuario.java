@@ -1,5 +1,6 @@
 package org.friascop.appAP.controllers;
 
+import org.friascop.appAP.dto.Usuario_dto;
 import org.friascop.appAP.entities.Usuario;
 import org.friascop.appAP.services.InServ_Usuario;
 import org.friascop.appAP.util.PassSecure;
@@ -29,9 +30,9 @@ public class Controller_Registro_Usuario {
 
     //muestra todos los detallesd de la persona que se quiere mostrar
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> details(@PathVariable Long id) {
+    public ResponseEntity<Usuario_dto> details(@PathVariable Long id) {
 
-        Optional<Usuario> usuarioOptional = servUsuario.findById(id);
+        Optional<Usuario_dto> usuarioOptional = servUsuario.findById_dto(id);
 
         if (usuarioOptional.isPresent()) {
 
