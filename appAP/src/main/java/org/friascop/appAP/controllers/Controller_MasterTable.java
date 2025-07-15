@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/tipos")
-public class Controller_Maestra {
+@RequestMapping("/api/master")
+public class Controller_MasterTable {
 
     final private InServ_Maestra servMaestra;
 
-    public Controller_Maestra(InServ_Maestra servMaestra) {
+    public Controller_MasterTable(InServ_Maestra servMaestra) {
         this.servMaestra = servMaestra;
     }
 
@@ -69,23 +69,11 @@ public class Controller_Maestra {
         return ResponseEntity.notFound().build();
     }
 
-    //Eliminala persona buscadola por el id
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Maestra> delete(@PathVariable Long id) {
-
-        Optional<Maestra> maestraOptional = servMaestra.findById(id);
-
-        if (maestraOptional.isPresent()) {
-
-            Maestra deleteMaestra = maestraOptional.orElseThrow();
-
-            return ResponseEntity.status(HttpStatus.OK).body(deleteMaestra);
-        }
-        return ResponseEntity.notFound().build();
-
+    @PostMapping("create/bulk")
+    public ResponseEntity<List<Maestra>> createBulk(@RequestBody List<Maestra> maestras) {
+        List<Maestra> maestrasDb = servMaestra.saveAll(maestras);
+        return ResponseEntity.status(HttpStatus.CREATED).body(maestrasDb);
     }
-
-
 
 
 }

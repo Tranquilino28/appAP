@@ -58,4 +58,9 @@ public class Impl_Serv_Maestra implements InServ_Maestra {
     }
 
 
+    @Transactional
+    @Override
+    public List<Maestra> saveAll(List<Maestra> maestras) {
+        return (List<Maestra>) RepoMaestra.saveAll(maestras);
+    }
 }

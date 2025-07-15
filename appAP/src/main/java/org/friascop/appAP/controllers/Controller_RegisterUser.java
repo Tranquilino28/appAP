@@ -13,14 +13,14 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/registroUsuario")
-public class Controller_Registro_Usuario {
+@RequestMapping("/api/user")
+public class Controller_RegisterUser {
     /**
      *
      */
     final private InServ_Usuario servUsuario;
 
-    public Controller_Registro_Usuario(InServ_Usuario servUsuario) {
+    public Controller_RegisterUser(InServ_Usuario servUsuario) {
         this.servUsuario = servUsuario;
     }
 
@@ -61,7 +61,7 @@ public class Controller_Registro_Usuario {
      */
     //crea la persona pasandole el objeto de la perosna que se creo en otra clase
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) throws InvalidKeySpecException {
 
         System.out.println("nombre : "+usuario.getNombreUsuario()

@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/home")
+@RequestMapping("/api/persona")
 public class Controller_Home {
 
     /**
@@ -51,7 +51,7 @@ public class Controller_Home {
 
     }
     //crea la persona pasandole el objeto de la perosna que se creo en otra clase
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<Persona> create(@RequestBody Persona persona) {
 
         Persona personaDb = servPersona.save(persona);

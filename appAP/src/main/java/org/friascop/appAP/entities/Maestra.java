@@ -2,9 +2,11 @@ package org.friascop.appAP.entities;
 
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "maestras")
+@Data
 public class Maestra {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,43 +24,4 @@ public class Maestra {
     @Column(nullable = false)
     private Integer estado;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombreLargo() {
-        return nombreLargo;
-    }
-
-    public void setNombreLargo(String nombreLargo) {
-        this.nombreLargo = nombreLargo;
-    }
-
-    public String getNombreCorto() {
-        return nombreCorto;
-    }
-
-    public void setNombreCorto(String nombreCorto) {
-        this.nombreCorto = nombreCorto;
-    }
-
-    public Integer getDependenciaId() {
-        return dependenciaId;
-    }
-
-    public void setDependenciaId(Integer dependenciaId) {
-        this.dependenciaId = dependenciaId;
-    }
-
-    public Integer getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Integer estado) {
-        this.estado = estado;
-    }
 }

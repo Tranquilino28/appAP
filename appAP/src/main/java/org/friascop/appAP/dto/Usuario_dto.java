@@ -5,12 +5,13 @@
 package org.friascop.appAP.dto;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 /**
  *
  * @author usuario
  */
-
+@Data
 public class Usuario_dto {
 
 
@@ -31,23 +32,4 @@ public class Usuario_dto {
         this.persona = persona;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public Long getUsua_codigo() {
-        return usua_codigo;
-    }
-
-    public String getUsua_usuario() {
-        return usua_usuario;
-    }
-
-    public String getUsua_rol() {
-        return usua_rol;
-    }
-
-    public Persona_dto getPersona() {
-        return persona;
-    }
 }
