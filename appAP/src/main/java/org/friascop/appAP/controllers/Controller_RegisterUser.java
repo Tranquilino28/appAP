@@ -2,6 +2,7 @@ package org.friascop.appAP.controllers;
 
 import org.friascop.appAP.dto.Usuario_dto;
 import org.friascop.appAP.entities.Usuario;
+import org.friascop.appAP.services.InServ_Persona;
 import org.friascop.appAP.services.InServ_Usuario;
 import org.friascop.appAP.util.PassSecure;
 import org.springframework.http.HttpStatus;
@@ -19,10 +20,15 @@ public class Controller_RegisterUser {
      *
      */
     final private InServ_Usuario servUsuario;
+    final private InServ_Persona servPersona;
 
-    public Controller_RegisterUser(InServ_Usuario servUsuario) {
+
+    public Controller_RegisterUser(InServ_Usuario servUsuario, InServ_Persona servPersona) {
         this.servUsuario = servUsuario;
+        this.servPersona = servPersona;
     }
+
+
 
     /**
      *
@@ -64,6 +70,9 @@ public class Controller_RegisterUser {
     @PostMapping("/register")
     public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) throws InvalidKeySpecException {
 
+
+
+
         System.out.println("nombre : "+usuario.getNombreUsuario()
         + "\nsalt password: "+ usuario.getHashpassword());
 
@@ -72,7 +81,21 @@ public class Controller_RegisterUser {
 
         return  ResponseEntity.status(HttpStatus.CREATED).body(usuarioDb);
     }
+    @PostMapping("/register/newUser")
+    public ResponseEntity<Usuario> createNewUser(@RequestBody Usuario usuario) throws InvalidKeySpecException {
 
+
+
+
+        System.out.println("nombre : "+usuario.getNombreUsuario()
+                + "\nsalt password: "+ usuario.getHashpassword());
+
+        PassSecure.hashPassword(usuario.getHashpassword(), PassSecure.generateSalt());
+        servPersona.save(usuario.getPersona());
+        Usuario usuarioDb = servUsuario.save(usuario);
+
+        return  ResponseEntity.status(HttpStatus.CREATED).body(usuarioDb);
+    }
 
 
     //Actualiza la persona buscadolo por su id y modificando con los cambios que se pasan
