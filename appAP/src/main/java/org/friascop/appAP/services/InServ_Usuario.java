@@ -16,4 +16,12 @@ public interface InServ_Usuario extends GenericService<Usuario> {
     @Transactional
     Optional<Usuario_dto> findById_dto(Long id);
 
+    @Transactional
+    Optional<Usuario> validarUsuario(String usuario);
+
+
+    @Transactional
+    boolean usuarioExists(String usuario, String password);
+
+
 }

@@ -5,27 +5,19 @@ import jakarta.persistence.*;
 
 public class Persona_dto {
 
-
     private Long id;
-
 
     private Integer identificacion;
 
-
     private String nombre;
-
 
     private String apellido;
 
-
     private String direccion;
-
 
     private String tipoIdentificacion;
 
-
     private String tipoSexo;
-
 
     private String tipoEstado;
 

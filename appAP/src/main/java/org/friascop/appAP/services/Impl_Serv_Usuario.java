@@ -1,10 +1,8 @@
 package org.friascop.appAP.services;
 
 
-import org.friascop.appAP.dto.Maestra_dto;
 import org.friascop.appAP.dto.Persona_dto;
 import org.friascop.appAP.dto.Usuario_dto;
-import org.friascop.appAP.entities.Maestra;
 import org.friascop.appAP.entities.Persona;
 import org.friascop.appAP.entities.Usuario;
 import org.friascop.appAP.repositories.InRepositorio_Persona;
@@ -19,6 +17,8 @@ import java.util.Optional;
 
 @Service
 public class Impl_Serv_Usuario implements InServ_Usuario {
+
+
 
     // Se IMPLEMENTA todas las funciones del servicio CRUD DE usuario
 
@@ -77,14 +77,43 @@ public class Impl_Serv_Usuario implements InServ_Usuario {
 
         return Optional.of(new Usuario_dto(
                 u.get().getId()
-                , u.get().getUsua_codigo()
-                , u.get().getUsua_usuario()
-                , u.get().getUsua_rol()
+                , u.get().getCodigo()
+                , u.get().getNombreUsuario()
+                , u.get().getRol()
                 , referencia_de_persona
 
         ));
     }
 
+    @Override
+    public Optional<Usuario> validarUsuario(String usuario) {
+        System.out.println("se busco el usuario");
+        return repoUsuario.findByNombreUsuario(usuario);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean usuarioExists(String usuario, String password) {
+       Optional<Usuario> user = repoUsuario.findByNombreUsuario(usuario);
+              boolean exists = false; 
+               
+                if (user.isPresent()) {
+                    System.out.println("el suuario se va a validadr");
+                    try {
+                        exists =   PassSecure.verifyPassword(
+                                password
+                                , user.get().getHashsalt()
+                                , user.get().getHashpassword()
+                                );
+                    } catch (InvalidKeySpecException e) {
+                        throw new RuntimeException(e);
+                    }
+
+
+                }
+
+        return exists;
+        
+    }
 
 
     @Transactional
@@ -92,9 +121,9 @@ public class Impl_Serv_Usuario implements InServ_Usuario {
     public Usuario save(Usuario usuario)  {
         try {
 
-            usuario.setHash_salt(PassSecure.generateSalt());
+            usuario.setHashsalt(PassSecure.generateSalt());
 
-            usuario.setHash_password(PassSecure.hashPassword(usuario.getHash_password(), usuario.getHash_salt()));
+            usuario.setHashpassword(PassSecure.hashPassword(usuario.getHashpassword(), usuario.getHashsalt()));
 
         } catch (InvalidKeySpecException e) {
             throw new RuntimeException(e);

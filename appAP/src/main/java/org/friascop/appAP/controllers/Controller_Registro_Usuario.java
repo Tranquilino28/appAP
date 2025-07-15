@@ -15,19 +15,30 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/registroUsuario")
 public class Controller_Registro_Usuario {
-
+    /**
+     *
+     */
     final private InServ_Usuario servUsuario;
 
     public Controller_Registro_Usuario(InServ_Usuario servUsuario) {
         this.servUsuario = servUsuario;
     }
 
+    /**
+     *
+     * @return
+     */
     @GetMapping
     public ResponseEntity<List<Usuario>> list(){
 
         return ResponseEntity.ok(servUsuario.findAll());
     }
 
+    /**
+     *
+     * @param id
+     * @return usuario con la informacion
+     */
     //muestra todos los detallesd de la persona que se quiere mostrar
     @GetMapping("/{id}")
     public ResponseEntity<Usuario_dto> details(@PathVariable Long id) {
@@ -41,18 +52,28 @@ public class Controller_Registro_Usuario {
         return ResponseEntity.notFound().build();
 
     }
+
+    /**
+     *
+     * @param usuario
+     * @return usuario con los detalles
+     * @throws InvalidKeySpecException
+     */
     //crea la persona pasandole el objeto de la perosna que se creo en otra clase
+
     @PostMapping
     public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) throws InvalidKeySpecException {
 
-        System.out.println("nombre : "+usuario.getUsua_usuario()
-        + "\nsalt password: "+ usuario.getHash_password());
+        System.out.println("nombre : "+usuario.getNombreUsuario()
+        + "\nsalt password: "+ usuario.getHashpassword());
 
-        PassSecure.hashPassword(usuario.getHash_password(), PassSecure.generateSalt());
+        PassSecure.hashPassword(usuario.getHashpassword(), PassSecure.generateSalt());
        Usuario usuarioDb = servUsuario.save(usuario);
 
         return  ResponseEntity.status(HttpStatus.CREATED).body(usuarioDb);
     }
+
+
 
     //Actualiza la persona buscadolo por su id y modificando con los cambios que se pasan
     @PutMapping("/{id}")
@@ -64,12 +85,10 @@ public class Controller_Registro_Usuario {
 
             Usuario usuarioDB = usuarioOptional.orElseThrow();
 
-
-            usuarioDB.setUsua_codigo(usuario.getUsua_codigo());
-            usuarioDB.setUsua_usuario(usuario.getUsua_usuario());
-            usuarioDB.setHash_salt(usuario.getHash_salt());
-            usuarioDB.setHash_password(usuario.getHash_password());
-
+            usuarioDB.setCodigo(usuario.getCodigo());
+            usuarioDB.setNombreUsuario(usuario.getNombreUsuario());
+            usuarioDB.setHashsalt(usuario.getHashsalt());
+            usuarioDB.setHashpassword(usuario.getHashpassword());
 
             return ResponseEntity.status(HttpStatus.CREATED).body(servUsuario.save(usuarioDB));
         }
@@ -77,6 +96,11 @@ public class Controller_Registro_Usuario {
         return ResponseEntity.notFound().build();
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     //Eliminala persona buscadola por el id
     @DeleteMapping("/{id}")
     public ResponseEntity<Usuario> delete(@PathVariable Long id) {
