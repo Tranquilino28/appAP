@@ -1,17 +1,18 @@
-# Etapa 1: construir el .jar
-
-FROM eclipse-temurin:24-jdk AS builder
+# Etapa 1: build con Maven
+FROM maven:3.9.6-eclipse-temurin-24 AS builder
 WORKDIR /build
 
-# Instalar Maven manualmente
-RUN apt-get update && \
-    apt-get install -y maven && \
-    apt-get clean
+# Copiar pom primero para cachear dependencias
+COPY pom.xml ./
+RUN mvn dependency:go-offline
 
-COPY . .
+# Copiar todo
+COPY . ./
 
+# Construir el jar
 RUN mvn clean package -DskipTests
 
+# Etapa 2: imagen final
 FROM eclipse-temurin:24-jdk
 WORKDIR /app
 
