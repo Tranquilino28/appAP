@@ -6,6 +6,7 @@ import org.friascop.appAP.entities.Usuario;
 import org.friascop.appAP.genericServices.GenericService;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.util.Optional;
 
 public interface InServ_Usuario extends GenericService<Usuario> {
@@ -24,4 +25,5 @@ public interface InServ_Usuario extends GenericService<Usuario> {
     boolean usuarioExists(String usuario, String password);
 
 
+    Optional<Usuario> findByUsername(String username);
 }

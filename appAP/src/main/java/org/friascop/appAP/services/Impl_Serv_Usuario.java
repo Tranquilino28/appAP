@@ -115,6 +115,11 @@ public class Impl_Serv_Usuario implements InServ_Usuario {
         
     }
 
+    @Override
+    public Optional<Usuario> findByUsername(String username) {
+        return Optional.empty();
+    }
+
 
     @Transactional
     @Override
