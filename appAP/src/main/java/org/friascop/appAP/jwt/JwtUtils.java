@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 
@@ -17,10 +19,10 @@ public class JwtUtils {
     // Secreto para firmar los tokens (debe mantenerse seguro)
 
     @Value("${app.jwt.secret}")
-    private String jwtSecr;
+    private String jwtSecret;
 
 
-    private final String jwtSecret = "u4Vsj1CQX3HSkAOmNxqiy7Y6PqYTxj4jX0zAF+T2oJ4=";
+    //private final String jwtSecret = "u4Vsj1CQX3HSkAOmNxqiy7Y6PqYTxj4jX0zAF+T2oJ4=";
 
     // Tiempo de expiración del token (en milisegundos)
     private final long jwtExpirationMs = 86400000;
@@ -33,14 +35,14 @@ public class JwtUtils {
                 .claim("rol", userDetails.getAuthorities().iterator().next().getAuthority())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtSecret)), SignatureAlgorithm.HS256)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
     // Extrae el nombre de usuario del token
     public String extractUsername(String token) {
         return Jwts.parser()
-                .setSigningKey(Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtSecret)))
+                .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
@@ -52,7 +54,7 @@ public class JwtUtils {
         System.out.println("validando el token : " + token);
         try {
             Jwts.parser()
-                    .setSigningKey(Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtSecret)))
+                    .setSigningKey(getSigningKey())
                     .build()
                     .parseClaimsJws(token);
             return true;
@@ -60,6 +62,20 @@ public class JwtUtils {
             System.out.println("Token inválido: " + e.getMessage());
             return false;
         }
+    }
+
+    // Extrae el rol del token
+    public String extractRol(String token) {
+        return Jwts.parser()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("rol", String.class); // 👈 Aquí extraemos el rol
+    }
+
+    private Key getSigningKey() {
+        return Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtSecret));
     }
 
 }
