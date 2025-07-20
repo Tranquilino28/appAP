@@ -4,83 +4,62 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class JwtUtils {
-    // Clave secreta que se usará para firmar el token
-    // Debe ser de al menos 256 bits (32 caracteres si es texto)
-    private final String jwtSecret = "JWT_SECRET-frias=@. G7p!mQ#2zV$9tK@xE4sN^5bW0hY*1rJ&dF8uL6cA\n";
 
-    // Tiempo de expiración en milisegundos (1 hora)
-    private final long jwtExpirationMs = 3600000;
+    // Secreto para firmar los tokens (debe mantenerse seguro)
 
-    // Devuelve la clave como objeto Key
-    private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(jwtSecret.getBytes());
-    }
+    @Value("${app.jwt.secret}")
+    private String jwtSecr;
 
-    // Generar el token a partir del nombre de usuario
-    public String generateJwtToken(Authentication authentication) {
-        UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 
-        List<String> roles = userPrincipal.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+    private final String jwtSecret = "u4Vsj1CQX3HSkAOmNxqiy7Y6PqYTxj4jX0zAF+T2oJ4=";
 
+    // Tiempo de expiración del token (en milisegundos)
+    private final long jwtExpirationMs = 86400000;
+
+    // Genera el token
+
+    public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
-                .setSubject(userPrincipal.getUsername())
-                .claim("roles", roles) // 👈 aquí van los roles
+                .setSubject(userDetails.getUsername())
+                .claim("rol", userDetails.getAuthorities().iterator().next().getAuthority())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .signWith(Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtSecret)), SignatureAlgorithm.HS256)
                 .compact();
-
-
-        /* return Jwts.builder()
-                .setSubject(username) // usuario
-                .setIssuedAt(new Date()) // fecha de creación
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs)) // expiración
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256) // algoritmo de firma
-                .compact();*/
     }
 
-
-    // Obtener usuario (subject) del token
-    public String getUsernameFromJwtToken(String token) {
+    // Extrae el nombre de usuario del token
+    public String extractUsername(String token) {
         return Jwts.parser()
-                .setSigningKey(getSigningKey())
+                .setSigningKey(Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtSecret)))
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
     }
 
-    // Validar que el token sea correcto y no esté expirado
-    public boolean validateJwtToken(String authToken) {
+    // Valida el token
+    public boolean validateToken(String token) {
+        System.out.println("validando el token : " + token);
         try {
             Jwts.parser()
-                    .setSigningKey(getSigningKey())
+                    .setSigningKey(Keys.hmacShaKeyFor(Base64.getDecoder().decode(jwtSecret)))
                     .build()
-                    .parseClaimsJws(authToken)
-                    .getBody()
-                    .getSubject();
+                    .parseClaimsJws(token);
             return true;
-        } catch (JwtException e) {
-            // Cualquier excepción significa que el token no es válido
+        } catch (JwtException | IllegalArgumentException e) {
             System.out.println("Token inválido: " + e.getMessage());
+            return false;
         }
-        return false;
     }
-
 
 }

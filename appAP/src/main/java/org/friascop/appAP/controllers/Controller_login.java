@@ -1,60 +1,47 @@
 package org.friascop.appAP.controllers;
 
-import org.friascop.appAP.dto.LoginRequest;
-import org.friascop.appAP.entities.Usuario;
-import org.friascop.appAP.jwt.JwtUtils;
-import org.friascop.appAP.services.InServ_Usuario;
+import org.friascop.appAP.jwt.AuthRequest;
+import org.friascop.appAP.jwt.AuthResponse;
+import org.friascop.appAP.jwt.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.spec.InvalidKeySpecException;
 import java.util.Collections;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
 public class Controller_login {
 
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtils jwtUtils;
-    public Controller_login(AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
-        this.authenticationManager = authenticationManager;
-        this.jwtUtils = jwtUtils;
-    }
+    @Autowired
+    private AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest usuario) {
+    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
 
-        System.out.println("usuario y contrasdeña recibidos : "+usuario.getUsername());
+        System.out.println("usuario y contrasdeña recibidos : "+request.getUsername());
 
         try {
-            Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword())
-            );
-
-            // Si es exitoso, genera el token JWT
-            String token = jwtUtils.generateJwtToken(auth);
-
-            System.out.println("el token se genero correctamente : \n"+token);
-            // Puedes devolver solo el token o un objeto
-            return ResponseEntity.ok().body(Collections.singletonMap("token", token));
 
 
+            AuthResponse response = authService.login(request);
+
+            // Retornamos 200 OK + token JWT
+            return ResponseEntity.ok(response);
            // return ResponseEntity.ok("Login exitoso");
         } catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
+        } catch (InvalidKeySpecException e) {
+            throw new RuntimeException(e);
         }
     }
 
-
 /*
+
     final private InServ_Usuario servUsuario;
 
     public Controller_login(InServ_Usuario servUsuario) {
@@ -65,14 +52,16 @@ public class Controller_login {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest usuario) {
        if( servUsuario.usuarioExists(usuario.getUsername(), usuario.getPassword())){
+
            return ResponseEntity.ok().build();
-        }else{
+
+       }else{
            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario y contraseña incorrecto!");
        }
 
     }
-*/
 
+*/
 
 
 

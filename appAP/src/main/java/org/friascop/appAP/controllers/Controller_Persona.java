@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/persona")
-public class Controller_Home {
+public class Controller_Persona {
 
     /**
      * Se crea la variable inmutable del servicioPersona
@@ -26,7 +26,7 @@ public class Controller_Home {
 
     final private InServ_Persona servPersona;
 
-    public Controller_Home(InServ_Persona servPersona) {
+    public Controller_Persona(InServ_Persona servPersona) {
 
         this.servPersona = servPersona;
     }

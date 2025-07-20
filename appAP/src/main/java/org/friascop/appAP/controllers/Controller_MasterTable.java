@@ -69,7 +69,7 @@ public class Controller_MasterTable {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("create/bulk")
+    @PostMapping("/create/bulk")
     public ResponseEntity<List<Maestra>> createBulk(@RequestBody List<Maestra> maestras) {
         List<Maestra> maestrasDb = servMaestra.saveAll(maestras);
         return ResponseEntity.status(HttpStatus.CREATED).body(maestrasDb);
