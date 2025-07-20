@@ -44,7 +44,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 // 4. Si no hay una autenticación activa en el contexto
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     // 5. Creamos autoridad desde el rol del token
-                    List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(rol));
+                    List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + rol));
+
 
                     // 6. Creamos autenticación con username y autoridad (sin password ni detalles)
                     UsernamePasswordAuthenticationToken auth =

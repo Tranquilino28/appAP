@@ -38,6 +38,8 @@ public class AuthService {
             throw new BadCredentialsException("Credenciales inválidas");
         }
 
+        System.out.println("el rol de esto es "+usuario.getRol());
+
         // Creamos el objeto User que Spring entiende
         UserDetails userDetails = new User(usuario.getNombreUsuario(), usuario.getHashpassword(),
                 List.of(new SimpleGrantedAuthority(usuario.getRol())));

@@ -27,8 +27,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/login").permitAll() // login público
                         .requestMatchers("/api/user/register/newUser").permitAll() //registro de usuario publico
 
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN") // solo admin
-                        .requestMatchers("/user/**").hasAnyAuthority("USER", "ADMIN") // user o admin
+                        .requestMatchers("/api/admin").hasRole("ADMIN") // solo admin
+                        .requestMatchers("/api/user/**").hasAnyRole("USER","ADMIN") // user o admin
                         .anyRequest().authenticated()) // todo lo demás requiere login
                 .userDetailsService(userDetailsService) // nuestro servicio personalizado
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class) // filtro antes de login
