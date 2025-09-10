@@ -1,6 +1,6 @@
 package org.friascop.appAP.jwt;
 
-import org.friascop.appAP.entities.Usuario;
+import org.friascop.appAP.auxdb.modelos.Usuario;
 import org.friascop.appAP.repositories.InRepositorio_Usuario;
 import org.friascop.appAP.util.PassSecure;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +44,8 @@ public class AuthService {
         UserDetails userDetails = new User(usuario.getNombreUsuario(), usuario.getHashpassword(),
                 List.of(new SimpleGrantedAuthority(usuario.getRol())));
 
-        // Generamos el JWT
-        String token = jwtUtils.generateToken(userDetails);
+        // Generamos el JWT pasamos el user detail y el id de la empresa a la que pertenece ese usuario
+        String token = jwtUtils.generateToken(userDetails, usuario.getEmpresa().getId());
 
         return new AuthResponse(token);
     }

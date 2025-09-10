@@ -11,11 +11,12 @@ import lombok.Data;
  *
  * @author usuario
  */
-@Entity
-@Table(name = "USUARIOS")
+
+
+//@Table(name = "USUARIOS")
 @Data
 public class Usuario {
-
+/*
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,5 +39,5 @@ public class Usuario {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "pers_id", nullable = false)
     private Persona persona;
-
+*/
 }

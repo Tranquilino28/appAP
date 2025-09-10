@@ -4,11 +4,11 @@ package org.friascop.appAP.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Entity
-@Table(name = "maestras")
+
+//@Table(name = "maestra")
 @Data
 public class Maestra {
-    @Id
+   /* @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -23,5 +23,5 @@ public class Maestra {
 
     @Column(nullable = false)
     private Integer estado;
-
+    */
 }

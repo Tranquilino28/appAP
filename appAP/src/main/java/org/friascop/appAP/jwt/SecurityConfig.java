@@ -25,8 +25,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // Deshabilitamos CSRF para APIs
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/login").permitAll() // login público
-                        .requestMatchers("/api/user/register/newUser").permitAll() //registro de usuario publico
+                        .requestMatchers("/master/create/bulk").permitAll() // crear tipos público
+                        .requestMatchers("/admin/register/newUser").permitAll() //registro de usuario publico
 
+                        .requestMatchers("/producto/**").permitAll() //registro de usuario publico
                         .requestMatchers("/api/admin").hasRole("ADMIN") // solo admin
                         .requestMatchers("/api/user/**").hasAnyRole("USER","ADMIN") // user o admin
                         .anyRequest().authenticated()) // todo lo demás requiere login

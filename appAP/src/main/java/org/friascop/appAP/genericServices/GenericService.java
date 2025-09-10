@@ -14,6 +14,7 @@ public interface GenericService<T> {
     // Guardar una entidad genérica
     T save(T entity);
 
+
     // Eliminar por ID
     Optional<T> deleteById(Long id);
 }

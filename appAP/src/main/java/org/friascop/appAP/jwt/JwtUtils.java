@@ -29,10 +29,11 @@ public class JwtUtils {
 
     // Genera el token
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails, Long empresaId) {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .claim("rol", userDetails.getAuthorities().iterator().next().getAuthority())
+                .claim("empresa_Id", empresaId) // 👈 Aquí agregamos el id de la empresa
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)

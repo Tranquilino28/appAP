@@ -1,6 +1,6 @@
 package org.friascop.appAP.jwt;
 
-import org.friascop.appAP.entities.Usuario;
+import org.friascop.appAP.auxdb.modelos.Usuario;
 import org.friascop.appAP.repositories.InRepositorio_Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

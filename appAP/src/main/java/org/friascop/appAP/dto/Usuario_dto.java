@@ -5,31 +5,24 @@
 package org.friascop.appAP.dto;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author usuario
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Usuario_dto {
-
-
     private Long id;
-
-    private Long usua_codigo;
-    private String usua_usuario;
-    private String usua_rol;
-
-    private Persona_dto persona;
-
-    //private Persona persona;
-    public Usuario_dto(Long id, Long usua_codigo, String usua_usuario, String usua_rol, Persona_dto persona) {
-        this.id = id;
-        this.usua_codigo = usua_codigo;
-        this.usua_usuario = usua_usuario;
-        this.usua_rol = usua_rol;
-        this.persona = persona;
-    }
-
+    private Long codigo;
+    private String nombreUsuario;
+    private String rol;
+    private Long personaId;   // relación con Persona
+    private Long empresaId;   // relación con Empresa
 }
