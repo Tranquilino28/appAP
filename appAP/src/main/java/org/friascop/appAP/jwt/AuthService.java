@@ -45,7 +45,9 @@ public class AuthService {
                 List.of(new SimpleGrantedAuthority(usuario.getRol())));
 
         // Generamos el JWT pasamos el user detail y el id de la empresa a la que pertenece ese usuario
-        String token = jwtUtils.generateToken(userDetails, usuario.getEmpresa().getId());
+
+        Long empresaId = (usuario.getEmpresa() != null) ? usuario.getEmpresa().getId() : 0L;
+        String token = jwtUtils.generateToken(userDetails, empresaId);
 
         return new AuthResponse(token);
     }
