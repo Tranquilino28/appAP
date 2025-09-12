@@ -22,5 +22,4 @@ public class Venta_dto {
     private String nombreCliente;
     private Empresa_dto empresa;
     private List<DetallesVenta_dto> detalles;
-
 }

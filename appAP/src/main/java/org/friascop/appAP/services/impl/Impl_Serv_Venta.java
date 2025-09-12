@@ -47,7 +47,25 @@ public class Impl_Serv_Venta implements InServ_Venta {
 
     @Override
     public List<Venta> findAll() {
+
+
+
         return List.of();
+    }
+
+   @Override
+    public List<Venta_dto> getAllVenta() {
+
+        List<Venta> ventas = (List<Venta>) repoVenta.findAll();
+        List<Venta_dto> ventadtos = new ArrayList<>();
+        for(Venta v : ventas){
+
+           ventadtos.add(MapperVenta.toDto(v)) ;
+
+        }
+
+        return ventadtos;
+
     }
 
     @Override
