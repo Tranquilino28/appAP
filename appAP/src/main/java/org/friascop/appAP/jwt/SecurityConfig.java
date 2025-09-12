@@ -27,6 +27,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/login").permitAll() // login público
                         .requestMatchers("/master/create/bulk").permitAll() // crear tipos público
                         .requestMatchers("/admin/register/newUser").permitAll() //registro de usuario publico
+                        .requestMatchers("/empresa").permitAll() //registro de usuario publico
 
                         .requestMatchers("/producto/**").permitAll() //registro de usuario publico
                         .requestMatchers("/api/admin").hasRole("ADMIN") // solo admin
